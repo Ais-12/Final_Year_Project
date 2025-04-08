@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Python Gamified Quiz</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to right, #fceabb, #f8b500);
+  padding: 30px;
+}
+
+.container {
+  max-width: 800px;
+  margin: auto;
+  background: #fffdf5;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 25px;
+}
+
+.question {
+  margin-bottom: 30px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+button {
+  background-color: gold;
+  border: none;
+  padding: 12px 25px;
+  font-size: 18px;
+  color: #000;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: orange;
+}
+
+.reward-img {
+  width: 30px;
+  vertical-align: middle;
+  margin-left: 10px;
+}
+
+#result {
+  margin-top: 30px;
+  font-size: 20px;
+  text-align: center;
+}
+</style>
+</head>
+
+<script>
+    function submitQuiz() {
+  let score = 0;
+  const bonus = 5;
+  const correctAnswers = {
+    q1: "a",
+    q2: "b",
+    q3: "c",
+    q4: "a",
+    q5: "b",
+    q6: "c",
+    q7: "a",
+    q8: "b",
+    q9: "c",
+    q10: "a",
+    q11: "b",
+    q12: "c",
+    q13: "a",
+    q14: "b",
+    q15: "c"
+  };
+
+  for (let question in correctAnswers) {
+    const selected = document.querySelector(`input[name="${question}"]:checked`);
+    const questionDiv = document.getElementById(question);
+    
+    // Remove any old reward image
+    const oldImg = questionDiv.querySelector('.reward-img');
+    if (oldImg) oldImg.remove();
+
+    if (selected && selected.value === correctAnswers[question]) {
+      score += bonus;
+
+      // Show gold image for correct answer
+      const img = document.createElement('img');
+      img.src = 'golg.png';
+      img.className = 'reward-img';
+      questionDiv.querySelector('p').appendChild(img);
+    }
+  }
+
+  const resultDiv = document.getElementById("result");
+  resultDiv.innerHTML = `✨ Your Total Score: <strong>${score}</strong>/75`;
+
+  if (score === 75) {
+    resultDiv.innerHTML += "<br/>🏆 Perfect! You're a Python Master!";
+  } else if (score >= 50) {
+    resultDiv.innerHTML += "<br/>🔥 Great effort! Keep up the good work!";
+  } else {
+    resultDiv.innerHTML += "<br/>📘 Keep practicing, you’re improving!";
+  }
+}
+</script>
+<body>
+  <div class="container">
+    <h1>🐍 Python Quiz Challenge</h1>
+    <form id="quizForm">
+      <div class="question" id="q1">
+        <p>1. What is the correct file extension for Python files?</p>
+        <label><input type="radio" name="q1" value="a" /> .py</label>
+        <label><input type="radio" name="q1" value="b" /> .python</label>
+        <label><input type="radio" name="q1" value="c" /> .pt</label>
+      </div>
+      
+      <!-- Repeat for q2 to q15 -->
+
+      <button type="button" onclick="submitQuiz()">Submit</button>
+    </form>
+    <div id="result"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

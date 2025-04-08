@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Excel Gamified Quiz</title>
+  <link rel="css/stylesheet" href="style.css" />
+  <style>
+    body {
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to right, #224153, #0a6357);
+  padding: 30px;
+}
+
+.container {
+  max-width: 900px;
+  margin: auto;
+  background: #fffdf5f1;
+  padding: 50px;
+  border-radius: 15px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 25px;
+}
+
+.question {
+  margin-bottom: 30px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+button {
+  background-color: rgb(71, 238, 160);
+  border: none;
+  padding: 12px 25px;
+  font-size: 18px;
+  color: #000;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: rgba(179, 0, 255, 0.566);
+}
+
+.reward-img {
+  width: 30px;
+  vertical-align: middle;
+  margin-left: 10px;
+}
+
+#result {
+  margin-top: 30px;
+  font-size: 20px;
+  text-align: center;
+}
+  </style>
+</head>
+<script>
+    function submitQuiz() {
+  let score = 0;
+  const bonus = 5;
+  const correctAnswers = {
+  q1: "a",  q2: "c",  q3: "b",  q4: "a",  q5: "a",
+  q6: "b",  q7: "c",  q8: "a",  q9: "b",  q10: "c",
+  q11: "a", q12: "c", q13: "b", q14: "a", q15: "c"
+};
+
+  for (let question in correctAnswers) {
+    const selected = document.querySelector(`input[name="${question}"]:checked`);
+    const questionDiv = document.getElementById(question);
+    
+    const oldImg = questionDiv.querySelector('.reward-img');
+    if (oldImg) oldImg.remove();
+
+    if (selected && selected.value === correctAnswers[question]) {
+      score += bonus;
+
+      const img = document.createElement('img');
+      img.src = 'trophy.png';
+      img.className = 'reward-img';
+      questionDiv.querySelector('p').appendChild(img);
+    }
+  }
+
+  const resultDiv = document.getElementById("result");
+  resultDiv.innerHTML = `✨ Your Total Score: <strong>${score}</strong>/75`;
+
+  if (score === 75) {
+    resultDiv.innerHTML += "<br/>🏆 Excel Master! Perfect Score!";
+  } else if (score >= 50) {
+    resultDiv.innerHTML += "<br/>🔥 Great effort! You're on your way!";
+  } else {
+    resultDiv.innerHTML += "<br/>📘 Keep practicing to level up!";
+  }
+}
+</script>
+<body>
+  <div class="container">
+    <h1>📊 Microsoft Excel Quiz Challenge</h1>
+    <form id="quizForm">
+
+      <div class="question" id="q1">
+        <p>1. What symbol is used to start a formula in Excel?</p>
+        <label><input type="radio" name="q1" value="a" /> =</label>
+        <label><input type="radio" name="q1" value="b" /> @</label>
+        <label><input type="radio" name="q1" value="c" /> $</label>
+      </div>
+
+      <div class="question" id="q2">
+        <p>2. What function is used to calculate average?</p>
+        <label><input type="radio" name="q2" value="a" /> MEAN()</label>
+        <label><input type="radio" name="q2" value="b" /> AVG()</label>
+        <label><input type="radio" name="q2" value="c" /> AVERAGE()</label>
+      </div>
+
+      <div class="question" id="q3">
+        <p>3. Which tab contains the 'PivotTable' option?</p>
+        <label><input type="radio" name="q3" value="a" /> Home</label>
+        <label><input type="radio" name="q3" value="b" /> Insert</label>
+        <label><input type="radio" name="q3" value="c" /> Data</label>
+      </div>
+
+      <div class="question" id="q4">
+        <p>4. Shortcut key to save a workbook?</p>
+        <label><input type="radio" name="q4" value="a" /> Ctrl + S</label>
+        <label><input type="radio" name="q4" value="b" /> Ctrl + Shift + S</label>
+        <label><input type="radio" name="q4" value="c" /> Ctrl + P</label>
+      </div>
+
+      <div class="question" id="q5">
+        <p>5. Which symbol is used to lock a cell reference?</p>
+        <label><input type="radio" name="q5" value="a" /> $</label>
+        <label><input type="radio" name="q5" value="b" /> #</label>
+        <label><input type="radio" name="q5" value="c" /> *</label>
+      </div>
+
+      <div class="question" id="q6">
+        <p>6. What does the CONCATENATE function do?</p>
+        <label><input type="radio" name="q6" value="a" /> Adds numbers</label>
+        <label><input type="radio" name="q6" value="b" /> Joins text</label>
+        <label><input type="radio" name="q6" value="c" /> Finds average</label>
+      </div>
+
+      <div class="question" id="q7">
+        <p>7. What is the new Excel file extension?</p>
+        <label><input type="radio" name="q7" value="a" /> .xls</label>
+        <label><input type="radio" name="q7" value="b" /> .exl</label>
+        <label><input type="radio" name="q7" value="c" /> .xlsx</label>
+      </div>
+
+      <div class="question" id="q8">
+        <p>8. Which function returns the highest value?</p>
+        <label><input type="radio" name="q8" value="a" /> MAX()</label>
+        <label><input type="radio" name="q8" value="b" /> HIGH()</label>
+        <label><input type="radio" name="q8" value="c" /> TOP()</label>
+      </div>
+
+      <div class="question" id="q9">
+        <p>9. What feature is used to sort data?</p>
+        <label><input type="radio" name="q9" value="a" /> Filter</label>
+        <label><input type="radio" name="q9" value="b" /> Sort</label>
+        <label><input type="radio" name="q9" value="c" /> Arrange</label>
+      </div>
+
+      <div class="question" id="q10">
+        <p>10. What function counts numeric values only?</p>
+        <label><input type="radio" name="q10" value="a" /> COUNTA()</label>
+        <label><input type="radio" name="q10" value="b" /> COUNTIF()</label>
+        <label><input type="radio" name="q10" value="c" /> COUNT()</label>
+      </div>
+
+      <div class="question" id="q11">
+        <p>11. Shortcut to insert a new worksheet?</p>
+        <label><input type="radio" name="q11" value="a" /> Shift + F11</label>
+        <label><input type="radio" name="q11" value="b" /> Ctrl + W</label>
+        <label><input type="radio" name="q11" value="c" /> Alt + Insert</label>
+      </div>
+
+      <div class="question" id="q12">
+        <p>12. What does IF() function do?</p>
+        <label><input type="radio" name="q12" value="a" /> Finds sum</label>
+        <label><input type="radio" name="q12" value="b" /> Sorts values</label>
+        <label><input type="radio" name="q12" value="c" /> Performs logic test</label>
+      </div>
+
+      <div class="question" id="q13">
+        <p>13. Which function returns current date?</p>
+        <label><input type="radio" name="q13" value="a" /> DATE()</label>
+        <label><input type="radio" name="q13" value="b" /> TODAY()</label>
+        <label><input type="radio" name="q13" value="c" /> NOW()</label>
+      </div>
+
+      <div class="question" id="q14">
+        <p>14. How can you create a chart in Excel?</p>
+        <label><input type="radio" name="q14" value="a" /> Insert Tab → Chart</label>
+        <label><input type="radio" name="q14" value="b" /> Data Tab → Table</label>
+        <label><input type="radio" name="q14" value="c" /> View Tab → Graph</label>
+      </div>
+
+      <div class="question" id="q15">
+        <p>15. Which symbol is used to refer to cell ranges?</p>
+        <label><input type="radio" name="q15" value="a" /> ;</label>
+        <label><input type="radio" name="q15" value="b" /> /</label>
+        <label><input type="radio" name="q15" value="c" /> :</label>
+      </div>
+
+      <button type="button" onclick="submitQuiz()">Submit</button>
+    </form>
+    <div id="result"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

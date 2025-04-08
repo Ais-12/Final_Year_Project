@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Course Content</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Favicon -->
+  <link href="img/icon.png" rel="icon">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Icon Fonts -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- Bootstrap & Animation Libraries -->
+  <link href="lib/animate/animate.min.css" rel="stylesheet">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+
+  <style>
+    #course-title {
+      margin: 30px 0 20px;
+      font-size: 28px;
+      color: #333;
+      text-align: center;
+    }
+
+    video {
+      display: block;
+      width: 100%;
+      max-width: 800px;
+      height: auto;
+      aspect-ratio: 16 / 9;
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+      margin: 0 auto 10px auto;
+    }
+
+    .caption {
+      font-size: 15px;
+      color: #555;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 800px;
+      margin: 10px auto;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background-color: #007bff;
+      color: white;
+      transition: background-color 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #0056b3;
+    }
+
+    .quiz-btn {
+      margin-top: 30px;
+      padding: 12px 24px;
+      background-color: #28a745;
+      font-size: 16px;
+      border-radius: 10px;
+      display: none;
+    }
+
+    .quiz-btn:disabled {
+      background-color: gray;
+      cursor: not-allowed;
+    }
+
+    .progress-bar-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 15px;
+    }
+
+    .progress-bar {
+      height: 15px;
+      width: 100%;
+      background-color: #eee;
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 20px 0;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background-color: #4caf50;
+      transition: width 0.5s ease-in-out;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Spinner Start -->
+  <div id="spinner"
+    class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+  <!-- Spinner End -->
+
+  <!-- Navbar Start -->
+  <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
+    <a href="index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+      <p class="m-0 fw-bold" style="font-size: 25px;">
+        <img src="img/image-dark.png" alt="" height="50px">
+        <span style="color: #277e7e;">Invisi</span><span style="color: #453991;">Learn</span>
+      </p>    
+    </a>
+    <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+      style="border: none;">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <div class="navbar-nav ms-auto p-4 p-lg-0">
+        <a href="index.html" class="nav-item nav-link">Home</a>
+        <a href="about.html" class="nav-item nav-link">About</a>
+        <a href="courses.html" class="nav-item nav-link">Courses</a>
+        <a href="testimonial.html" class="nav-item nav-link">Testimonial</a>
+        <a href="contact.html" class="nav-item nav-link">Contact</a>
+        <a href="login.html" class="nav-item nav-link"><i class="fa fa-user"></i></a>
+        <a href="#" class="nav-item nav-link">
+          <div id="google_translate_element"></div>
+        </a>
+      </div>
+    </div>
+  </nav>
+  <!-- Navbar End -->
+
+  <h1 id="course-title">Loading Course...</h1>
+
+  <div class="progress-bar-container">
+    <div class="progress-bar">
+      <div class="progress-bar-fill" id="progress-fill"></div>
+    </div>
+  </div>
+
+  <video id="course-video" controls></video>
+  <div class="caption" id="video-caption">Loading video transcript...</div>
+
+  <div class="controls">
+    <button class="btn" onclick="prevVideo()">⏮ Previous</button>
+    <button class="btn" onclick="nextVideo()">Next ⏭</button>
+  </div>
+
+  <div style="text-align: center;">
+    <button class="btn quiz-btn" id="quiz-button" disabled onclick="goToQuiz()">Take the Quiz</button>
+  </div>
+
+  <!-- JS Libraries -->
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="lib/wow/wow.min.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/voiceCommands.js"></script>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const courseId = urlParams.get('course');
+
+    const courseNames = {
+      python: "🐍 Python Basics"
+    };
+
+    const captions = {
+      1: "📘 Video 1: Learn the basics of Python – syntax, variables, and output."
+    };
+
+    const videos = [
+      "videos/pythoncourse.mp4"
+    ];
+
+    let currentVideo = 0;
+    const videoElement = document.getElementById("course-video");
+    const captionElement = document.getElementById("video-caption");
+    const titleElement = document.getElementById("course-title");
+    const progressFill = document.getElementById("progress-fill");
+    const quizButton = document.getElementById("quiz-button");
+
+    function loadVideo(index) {
+      videoElement.src = videos[index];
+      captionElement.innerText = captions[index + 1] || "Enjoy the lesson!";
+      progressFill.style.width = `${((index + 1) / videos.length) * 100}%`;
+
+      if (index === videos.length - 1) {
+        quizButton.style.display = "block";
+        quizButton.disabled = false;
+      } else {
+        quizButton.style.display = "none";
+        quizButton.disabled = true;
+      }
+    }
+
+    function nextVideo() {
+      if (currentVideo < videos.length - 1) {
+        currentVideo++;
+        loadVideo(currentVideo);
+      }
+    }
+
+    function prevVideo() {
+      if (currentVideo > 0) {
+        currentVideo--;
+        loadVideo(currentVideo);
+      }
+    }
+
+    function goToQuiz() {
+      window.location.href = `pythonquiz.html?course=${courseId}`;
+    }
+
+    window.onload = function () {
+      if (courseId && courseNames[courseId]) {
+        titleElement.innerText = courseNames[courseId];
+        loadVideo(currentVideo);
+      } else {
+        titleElement.innerText = "❌ Course Not Found";
+      }
+      document.getElementById("spinner").classList.remove("show");
+    };
+  </script>
+
+</body>
+</html>
